@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - Healthcare Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --primary-light: #34495e;
+            --primary-dark: #1a252f;
+            --secondary: #3498db;
+            --secondary-dark: #2980b9;
+            --accent: #e74c3c;
+            --accent-light: #ec7063;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #7f8c8d;
+            --light-gray: #bdc3c7;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Auth Screens Styles */
+        #auth-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .auth-container h1 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .auth-container .logo {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .auth-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid var(--light-gray);
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .role-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .auth-switch {
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .auth-switch a {
+            color: var(--secondary);
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: var(--accent);
+            margin-top: 10px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* Dashboard Styles */
+        #dashboard {
+            display: none;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+        }
+
+        .notification-area {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .notification-badge {
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            padding: 3px 8px;
+            font-size: 0.8rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--dark);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-dark);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background: var(--accent-light);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Navigation Styles */
+        .nav-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            padding: 15px 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+        }
+
+        .nav-item a {
+            display: block;
+            padding: 10px 15px;
+            border-radius: 6px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-item a:hover, .nav-item a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* List Styles */
+        .appointment-list, .patient-list, .medication-list {
+            margin-top: 15px;
+        }
+
+        .appointment-item, .patient-item, .medication-item {
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--light);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .appointment-details, .patient-details, .medication-details {
+            flex: 1;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-upcoming {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-completed {
+            background-color: #f1f8e9;
+            color: #689f38;
+        }
+
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        /* Metrics Styles */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: var(--light);
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 5px 0;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+        }
+
+        .chatbot-header {
+            padding: 15px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+
+        .bot-message {
+            background: var(--light);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .user-message {
+            background: var(--primary-light);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chatbot-input button {
+            margin-left: 10px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+        }
+
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-reply {
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quick-reply:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        /* Patient Specific Styles */
+        .health-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .icon-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 10px;
+            border-radius: 8px;
+            background: var(--light);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .icon-button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .icon-button i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 4px;
+        }
+
+        /* Doctor Specific Styles */
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .health-metrics, .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .notification-area {
+                justify-content: center;
+            }
+
+            .auth-container {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Screen (Login/Signup) -->
+    <div id="auth-screen">
+        <div class="auth-container" id="login-container">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <h1>MedConnect Portal</h1>
+
+            <div class="role-selector">
+                <div class="role-btn active" id="patient-role">Patient</div>
+                <div class="role-btn" id="doctor-role">Doctor</div>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+
+            <div class="error-message" id="login-error"></div>
+
+            <button class="auth-btn" id="login-btn">Login to Portal</button>
+
+            <div class="auth-switch">
+                Don't have an account? <a id="switch-to-signup">Sign up here</a>
+            </div>
+        </div>
+
+        <div class="auth-container" id="signup-container" style="display: none;">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <h1>Create Account</h1>
+
+            <div class="role-selector">
+                <div class="role-btn active" id="signup-patient-role">Patient</div>
+                <div class="role-btn" id="signup-doctor-role">Doctor</div>
+            </div>
+
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="new-username">Username</label>
+                <input type="text" id="new-username" placeholder="Choose a username">
+            </div>
+
+            <div class="form-group">
+                <label for="new-password">Password</label>
+                <input type="password" id="new-password" placeholder="Create a password">
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Confirm your password">
+            </div>
+
+            <div class="error-message" id="signup-error"></div>
+
+            <button class="auth-btn" id="signup-btn">Create Account</button>
+
+            <div class="auth-switch">
+                Already have an account? <a id="switch-to-login">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard (Hidden initially) -->
+    <div id="dashboard">
+        <div class="container">
+            <header>
+                <div class="welcome-section">
+                    <img id="user-avatar" src="" class="profile-img">
+                    <div>
+                        <h1 id="dashboard-title">Dashboard</h1>
+                        <p id="username-display">Welcome!</p>
+                    </div>
+                </div>
+                <div class="notification-area">
+                    <button class="btn-primary" id="notifications-btn"><i class="fas fa-bell"></i> Alerts <span class="notification-badge">3</span></button>
+                    <button id="logout-btn" class="btn-accent"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </header>
+
+            <!-- Navigation Menu -->
+            <div class="nav-container">
+                <ul class="nav-menu" id="main-nav">
+                    <!-- Navigation items will be added dynamically -->
+                </ul>
+            </div>
+
+            <!-- Patient Dashboard Content -->
+            <div id="patient-dashboard">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-calendar-check"></i> Upcoming Appointments</h2>
+                            <span class="notification-badge">2</span>
+                        </div>
+                        <div class="appointment-list">
+                            <div class="appointment-item">
+                                <div class="appointment-details">
+                                    <h4>Dr. Michael Chen - Cardiology</h4>
+                                    <p>Today, 2:30 PM - Follow-up</p>
+                                </div>
+                                <span class="status-badge status-upcoming">Upcoming</span>
+                            </div>
+                            <div class="appointment-item">
+                                <div class="appointment-details">
+                                    <h4>Dr. Emily Rodriguez - Endocrinology</h4>
+                                    <p>Tomorrow, 10:00 AM - Consultation</p>
+                                </div>
+                                <span class="status-badge status-upcoming">Upcoming</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" style="width: 100%; margin-top: 15px;">
+                            <i class="fas fa-plus"></i> Schedule New Appointment
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-heartbeat"></i> Health Metrics</h2>
+                        </div>
+                        <div class="health-metrics">
+                            <div class="metric-card">
+                                <div class="metric-value">72</div>
+                                <div class="metric-label">Heart Rate (bpm)</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">120/80</div>
+                                <div class="metric-label">Blood Pressure</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">98.6°F</div>
+                                <div class="metric-label">Temperature</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">98%</div>
+                                <div class="metric-label">Oxygen Level</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-pills"></i> Current Medications</h2>
+                        </div>
+                        <div class="medication-list">
+                            <div class="medication-item">
+                                <div class="medication-details">
+                                    <h4>Lisinopril 10mg</h4>
+                                    <p>Once daily - For blood pressure</p>
+                                </div>
+                                <i class="fas fa-bell" style="color: var(--success);"></i>
+                            </div>
+                            <div class="medication-item">
+                                <div class="medication-details">
+                                    <h4>Metformin 500mg</h4>
+                                    <p>Twice daily - For diabetes</p>
+                                </div>
+                                <i class="fas fa-bell" style="color: var(--success);"></i>
+                            </div>
+                        </div>
+                        <button class="btn-success" style="width: 100%; margin-top: 15px;">
+                            <i class="fas fa-prescription"></i> Request Refill
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-clipboard-list"></i> Health Goals</h2>
+                        </div>
+                        <div>
+                            <p>Daily Step Count</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            <p>6,500 / 10,000 steps</p>
+
+                            <p style="margin-top: 15px;">Water Intake</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%"></div>
+                            </div>
+                            <p>4 / 8 glasses today</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-first-aid"></i> Quick Actions</h2>
+                    </div>
+                    <div class="action-buttons">
+                        <div class="icon-button">
+                            <i class="fas fa-video"></i>
+                            <span>Start Visit</span>
+                        </div>
+                        <div class="icon-button">
+                            <i class="fas fa-comment-medical"></i>
+                            <span>Message Doctor</span>
+                        </div>
+                        <div class="icon-button">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Records</span>
+                        </div>
+                        <div class="icon-button">
+                            <i class="fas fa-prescription"></i>
+                            <span>Prescriptions</span>
+                        </div>
+                        <div class="icon-button">
+                            <i class="fas fa-hospital-user"></i>
+                            <span>Find Care</span>
+                        </div>
+                        <div class="icon-button">
+                            <i class="fas fa-ambulance"></i>
+                            <span>Urgent Care</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctor Dashboard Content (Hidden initially) -->
+            <div id="doctor-dashboard" style="display: none;">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-calendar-check"></i> Today's Appointments</h2>
+                            <span class="notification-badge">5</span>
+                        </div>
+                        <div class="appointment-list">
+                            <div class="appointment-item">
+                                <div class="appointment-details">
+                                    <h4>Sarah Johnson</h4>
+                                    <p>2:30 PM - Follow-up</p>
+                                </div>
+                                <div>
+                                    <span class="status-badge status-upcoming">Upcoming</span>
+                                    <button class="btn-primary"><i class="fas fa-video"></i></button>
+                                </div>
+                            </div>
+                            <div class="appointment-item">
+                                <div class="appointment-details">
+                                    <h4>Robert Williams</h4>
+                                    <p>3:45 PM - Consultation</p>
+                                </div>
+                                <div>
+                                    <span class="status-badge status-upcoming">Upcoming</span>
+                                    <button class="btn-primary"><i class="fas fa-video"></i></button>
+                                </div>
+                            </div>
+                            <div class="appointment-item">
+                                <div class="appointment-details">
+                                    <h4>Emily Davis</h4>
+                                    <p>10:15 AM - Completed</p>
+                                </div>
+                                <div>
+                                    <span class="status-badge status-completed">Completed</span>
+                                    <button class="btn-secondary"><i class="fas fa-file-medical"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-primary" style="width: 100%; margin-top: 15px;">
+                            <i class="fas fa-list"></i> View All Appointments
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-user-injured"></i> Recent Patients</h2>
+                        </div>
+                        <div class="patient-list">
+                            <div class="patient-item">
+                                <img src="https://xsgames.co/randomusers/avatar.php?g=female&id=pat1" class="profile-img" style="width: 45px; height: 45px;">
+                                <div class="patient-details">
+                                    <h4>Maria Garcia</h4>
+                                    <p>Last visit: Today</p>
+                                </div>
+                            </div>
+                            <div class="patient-item">
+                                <img src="https://xsgames.co/randomusers/avatar.php?g=male&id=pat2" class="profile-img" style="width: 45px; height: 45px;">
+                                <div class="patient-details">
+                                    <h4>James Wilson</h4>
+                    <p>Last visit: Yesterday</p>
+                                </div>
+                            </div>
+                            <div class="patient-item">
+                                <img src="https://xsgames.co/randomusers/avatar.php?g=female&id=pat3" class="profile-img" style="width: 45px; height: 45px;">
+                                <div class="patient-details">
+                                    <h4>Lisa Anderson</h4>
+                                    <p>Last visit: 2 days ago</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-primary" style="width: 100%; margin-top: 15px;">
+                            <i class="fas fa-search"></i> Search Patients
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-chart-line"></i> Practice Metrics</h2>
+                        </div>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-value">18</div>
+                                <div class="metric-label">Patients Today</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">92%</div>
+                                <div class="metric-label">Attendance Rate</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">34</div>
+                                <div class="metric-label">Weekly Appointments</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">15m</div>
+                                <div class="metric-label">Avg. Wait Time</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-prescription"></i> Recent Prescriptions</h2>
+                        </div>
+                        <div class="medication-list">
+                            <div class="medication-item">
+                                <div class="medication-details">
+                                    <h4>Lisinopril 10mg</h4>
+                                    <p>For: Robert Williams</p>
+                                </div>
+                                <span class="status-badge status-upcoming">Active</span>
+                            </div>
+                            <div class="medication-item">
+                                <div class="medication-details">
+                                    <h4>Metformin 500mg</h4>
+                                    <p>For: Emily Davis</p>
+                                </div>
+                                <span class="status-badge status-upcoming">Active</span>
+                            </div>
+                            <div class="medication-item">
+                                <div class="medication-details">
+                                    <h4>Amoxicillin 250mg</h4>
+                                    <p>For: Sarah Johnson</p>
+                                </div>
+                                <span class="status-badge status-completed">Completed</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" style="width: 100%; margin-top: 15px;">
+                            <i class="fas fa-file-prescription"></i> Write New Prescription
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-stethoscope"></i> Telehealth Sessions</h2>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">12</div>
+                            <div class="metric-label">Sessions Today</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">87%</div>
+                            <div class="metric-label">Patient Satisfaction</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">4.8/5</div>
+                            <div class="metric-label">Average Rating</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">2</div>
+                            <div class="metric-label">Waiting Now</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn-primary"><i class="fas fa-video"></i> Start Session</button>
+                        <button class="btn-secondary"><i class="fas fa-list"></i> View Queue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chatbot Section (Common to both dashboards) -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-robot"></i> Health Assistant</h2>
+                </div>
+                <div class="chatbot-container">
+                    <div class="chatbot-messages" id="chatbot-messages">
+                        <div class="message bot-message">
+                            Hello! I'm your Health Assistant. How can I help you today?
+                        </div>
+                        <div class="message bot-message">
+                            You can ask me about:
+                            <div class="quick-replies">
+                                <div class="quick-reply" data-msg="Appointments">Appointments</div>
+                                <div class="quick-reply" data-msg="Medications">Medications</div>
+                                <div class="quick-reply" data-msg="Symptoms">Symptoms</div>
+                                <div class="quick-reply" data-msg="Health data">Health data</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chatbot-input">
+                        <input type="text" id="chatbot-input" placeholder="Type your message here...">
+                        <button class="btn-primary" id="send-message-btn"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User database simulation (in a real app, this would be on the server)
+        const userDatabase = {
+            // Sample patient users
+            'sarahj': {
+                username: 'sarahj',
+                password: 'pass123',
+                name: 'Sarah Johnson',
+                email: 'sarah.j@example.com',
+                role: 'patient',
+                profileImage: 'https://xsgames.co/randomusers/avatar.php?g=female&id=pat1'
+            },
+            'robertw': {
+                username: 'robertw',
+                password: 'pass123',
+                name: 'Robert Williams',
+                email: 'robert.w@example.com',
+                role: 'patient',
+                profileImage: 'https://xsgames.co/randomusers/avatar.php?g=male&id=pat2'
+            },
+
+            // Sample doctor users
+            'mchen': {
+                username: 'mchen',
+                password: 'doc123',
+                name: 'Dr. Michael Chen',
+                email: 'm.chen@medconnect.com',
+                role: 'doctor',
+                profileImage: 'https://xsgames.co/randomusers/avatar.php?g=male&id=doc1'
+            },
+            'erodriguez': {
+                username: 'erodriguez',
+                password: 'doc123',
+                name: 'Dr. Emily Rodriguez',
+                email: 'e.rodriguez@medconnect.com',
+                role: 'doctor',
+                profileImage: 'https://xsgames.co/randomusers/avatar.php?g=female&id=doc2'
+            }
+        };
+
+        // Navigation items for different user roles
+        const navigationItems = {
+            patient: [
+                { name: 'Dashboard', icon: 'fas fa-tachometer-alt', active: true },
+                { name: 'Appointments', icon: 'fas fa-calendar-check' },
+                { name: 'Medical Records', icon: 'fas fa-file-medical' },
+                { name: 'Prescriptions', icon: 'fas fa-prescription' },
+                { name: 'Messages', icon: 'fas fa-comment-medical' },
+                { name: 'Billing', icon: 'fas fa-credit-card' }
+            ],
+            doctor: [
+                { name: 'Dashboard', icon: 'fas fa-tachometer-alt', active: true },
+                { name: 'Schedule', icon: 'fas fa-calendar-day' },
+                { name: 'Patients', icon: 'fas fa-user-injured' },
+                { name: 'Prescriptions', icon: 'fas fa-prescription' },
+                { name: 'Messages', icon: 'fas fa-comment-medical' },
+                { name: 'Reports', icon: 'fas fa-chart-line' }
+            ]
+        };
+
+        // Chatbot responses
+        const chatbotResponses = {
+            "appointments": "You have 2 upcoming appointments. Your next appointment is with Dr. Michael Chen today at 2:30 PM.",
+            "medications": "You are currently taking 2 medications: Lisinopril for blood pressure and Metformin for diabetes.",
+            "symptoms": "If you're experiencing symptoms, I can help you schedule an appointment with your doctor or find appropriate care.",
+            "health data": "Your recent health metrics: Heart rate: 72 bpm, Blood pressure: 120/80, Temperature: 98.6°F, Oxygen level: 98%.",
+            "hello": "Hello! How can I assist you with your healthcare today?",
+            "default": "I'm sorry, I didn't understand that. Can you please rephrase or ask about appointments, medications, symptoms, or health data?"
+        };
+
+        const doctorChatbotResponses = {
+            "appointments": "You have 5 appointments today. Your next appointment is with Sarah Johnson at 2:30 PM.",
+            "patients": "You have 3 patients waiting. Maria Garcia is next in line.",
+            "prescriptions": "You have 2 pending prescription requests. Would you like to review them?",
+            "schedule": "Your schedule today: 9 AM - 12 PM: Patient consultations, 2 PM - 5 PM: Telehealth appointments.",
+            "hello": "Hello Doctor! How can I assist you with your practice today?",
+            "default": "I'm sorry, I didn't understand that. Can you please rephrase or ask about appointments, patients, prescriptions, or your schedule?"
+        };
+
+        // DOM Elements
+        const authScreen = document.getElementById('auth-screen');
+        const loginContainer = document.getElementById('login-container');
+        const signupContainer = document.getElementById('signup-container');
+        const dashboard = document.getElementById('dashboard');
+        const patientDashboard = document.getElementById('patient-dashboard');
+        const doctorDashboard = document.getElementById('doctor-dashboard');
+        const patientRoleBtn = document.getElementById('patient-role');
+        const doctorRoleBtn = document.getElementById('doctor-role');
+        const signupPatientRoleBtn = document.getElementById('signup-patient-role');
+        const signupDoctorRoleBtn = document.getElementById('signup-doctor-role');
+        const loginBtn = document.getElementById('login-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const switchToSignupBtn = document.getElementById('switch-to-signup');
+        const switchToLoginBtn = document.getElementById('switch-to-login');
+        const usernameDisplay = document.getElementById('username-display');
+        const dashboardTitle = document.getElementById('dashboard-title');
+        const userAvatar = document.getElementById('user-avatar');
+        const mainNav = document.getElementById('main-nav');
+        const loginError = document.getElementById('login-error');
+        const signupError = document.getElementById('signup-error');
+
+        let currentRole = 'patient';
+        let currentUser = null;
+
+        // Role selection for login
+        patientRoleBtn.addEventListener('click', () => {
+            patientRoleBtn.classList.add('active');
+            doctorRoleBtn.classList.remove('active');
+            currentRole = 'patient';
+        });
+
+        doctorRoleBtn.addEventListener('click', () => {
+            doctorRoleBtn.classList.add('active');
+            patientRoleBtn.classList.remove('active');
+            currentRole = 'doctor';
+        });
+
+        // Role selection for signup
+        signupPatientRoleBtn.addEventListener('click', () => {
+            signupPatientRoleBtn.classList.add('active');
+            signupDoctorRoleBtn.classList.remove('active');
+            currentRole = 'patient';
+        });
+
+        signupDoctorRoleBtn.addEventListener('click', () => {
+            signupDoctorRoleBtn.classList.add('active');
+            signupPatientRoleBtn.classList.remove('active');
+            currentRole = 'doctor';
+        });
+
+        // Switch between login and signup forms
+        switchToSignupBtn.addEventListener('click', () => {
+            loginContainer.style.display = 'none';
+            signupContainer.style.display = 'block';
+        });
+
+        switchToLoginBtn.addEventListener('click', () => {
+            signupContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+        });
+
+        // Login functionality
+        loginBtn.addEventListener('click', () => {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                showError(loginError, 'Please enter both username and password');
+                return;
+            }
+
+            // Check if user exists and password matches
+            if (userDatabase[username] && userDatabase[username].password === password) {
+                // Check if role matches
+                if (userDatabase[username].role === currentRole) {
+                    currentUser = userDatabase[username];
+                    loginUser(currentUser);
+                } else {
+                    showError(loginError, `No ${currentRole} account found with this username`);
+                }
+            } else {
+                showError(loginError, 'Invalid username or password');
+            }
+        });
+
+        // Signup functionality
+        signupBtn.addEventListener('click', () => {
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('new-username').value;
+            const password = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (!fullname || !email || !username || !password || !confirmPassword) {
+                showError(signupError, 'Please fill in all fields');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError(signupError, 'Passwords do not match');
+                return;
+            }
+
+            if (userDatabase[username]) {
+                showError(signupError, 'Username already exists');
+                return;
+            }
+
+            // Create new user (in a real app, this would be sent to a server)
+            userDatabase[username] = {
+                username: username,
+                password: password,
+                name: fullname,
+                email: email,
+                role: currentRole,
+                profileImage: currentRole === 'patient'
+                    ? 'https://xsgames.co/randomusers/avatar.php?g=female&id=' + Math.floor(Math.random() * 100)
+                    : 'https://xsgames.co/randomusers/avatar.php?g=male&id=doc' + Math.floor(Math.random() * 10)
+            };
+
+            currentUser = userDatabase[username];
+            loginUser(currentUser);
+
+            // Switch back to login form for future use
+            signupContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+        });
+
+        // Login user function
+        function loginUser(user) {
+            // Hide auth screen, show dashboard
+            authScreen.style.display = 'none';
+            dashboard.style.display = 'block';
+
+            // Set user data
+            usernameDisplay.textContent = `Welcome, ${user.name}!`;
+            dashboardTitle.textContent = `${user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard`;
+            userAvatar.src = user.profileImage;
+
+            // Show appropriate dashboard
+            if (user.role === 'patient') {
+                patientDashboard.style.display = 'block';
+                doctorDashboard.style.display = 'none';
+            } else {
+                patientDashboard.style.display = 'none';
+                doctorDashboard.style.display = 'block';
+            }
+
+            // Setup navigation
+            setupNavigation(user.role);
+
+            // Store user in session (in a real app, this would be a proper session token)
+            sessionStorage.setItem('currentUser', JSON.stringify(user));
+        }
+
+        // Setup navigation based on user role
+        function setupNavigation(role) {
+            mainNav.innerHTML = '';
+
+            navigationItems[role].forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'nav-item';
+
+                const a = document.createElement('a');
+                a.href = '#';
+                if (item.active) a.className = 'active';
+
+                const icon = document.createElement('i');
+                icon.className = item.icon;
+
+                a.appendChild(icon);
+                a.appendChild(document.createTextNode(' ' + item.name));
+                li.appendChild(a);
+
+                mainNav.appendChild(li);
+            });
+        }
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', () => {
+            dashboard.style.display = 'none';
+            authScreen.style.display = 'flex';
+
+            // Clear form fields
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('fullname').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('new-username').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+
+            // Clear errors
+            loginError.style.display = 'none';
+            signupError.style.display = 'none';
+
+            // Clear session
+            sessionStorage.removeItem('currentUser');
+            currentUser = null;
+        });
+
+        // Show error message
+        function showError(element, message) {
+            element.textContent = message;
+            element.style.display = 'block';
+
+            // Hide error after 5 seconds
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+
+        // Chatbot functionality
+        function setupChatbot() {
+            const messagesContainer = document.getElementById('chatbot-messages');
+            const input = document.getElementById('chatbot-input');
+            const sendButton = document.getElementById('send-message-btn');
+
+            function addMessage(message, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+                messageDiv.textContent = message;
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            function processMessage(message) {
+                const lowerMsg = message.toLowerCase();
+                let response = currentUser.role === 'patient' ? chatbotResponses.default : doctorChatbotResponses.default;
+                const responses = currentUser.role === 'patient' ? chatbotResponses : doctorChatbotResponses;
+
+                if (lowerMsg.includes('appointment')) {
+                    response = responses.appointments;
+                } else if (lowerMsg.includes('patient') && currentUser.role === 'doctor') {
+                    response = responses.patients;
+                } else if (lowerMsg.includes('medication') || lowerMsg.includes('prescription')) {
+                    response = responses.medications || responses.prescriptions;
+                } else if (lowerMsg.includes('symptom')) {
+                    response = responses.symptoms;
+                } else if (lowerMsg.includes('health data')) {
+                    response = responses.health;
+                } else if (lowerMsg.includes('schedule') && currentUser.role === 'doctor') {
+                    response = responses.schedule;
+                } else if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
+                    response = responses.hello;
+                }
+
+                // Simulate typing delay
+                setTimeout(() => {
+                    addMessage(response);
+
+                    // Add quick replies for follow-up
+                    if (!isUser) {
+                        const quickReplies = document.createElement('div');
+                        quickReplies.classList.add('quick-replies');
+
+                        if (currentUser.role === 'patient') {
+                            quickReplies.innerHTML = `
+                                <div class="quick-reply" data-msg="Appointments">Appointments</div>
+                                <div class="quick-reply" data-msg="Medications">Medications</div>
+                                <div class="quick-reply" data-msg="Symptoms">Symptoms</div>
+                                <div class="quick-reply" data-msg="Health data">Health data</div>
+                            `;
+                        } else {
+                            quickReplies.innerHTML = `
+                                <div class="quick-reply" data-msg="Appointments">Appointments</div>
+                                <div class="quick-reply" data-msg="Patients">Patients</div>
+                                <div class="quick-reply" data-msg="Prescriptions">Prescriptions</div>
+                                <div class="quick-reply" data-msg="Schedule">Schedule</div>
+                            `;
+                        }
+
+                        messagesContainer.appendChild(quickReplies);
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                        // Add event listeners to quick replies
+                        document.querySelectorAll('.quick-reply').forEach(reply => {
+                            reply.addEventListener('click', function() {
+                                input.value = this.getAttribute('data-msg');
+                                sendButton.click();
+                            });
+                        });
+                    }
+                }, 1000);
+            }
+
+            sendButton.addEventListener('click', function() {
+                const message = input.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    input.value = '';
+                    processMessage(message);
+                }
+            });
+
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+
+            // Add event listeners to initial quick replies
+            document.querySelectorAll('.quick-reply').forEach(reply => {
+                reply.addEventListener('click', function() {
+                    input.value = this.getAttribute('data-msg');
+                    sendButton.click();
+                });
+            });
+        }
+
+        // Check if user is already logged in from session
+        function checkSession() {
+            const savedUser = sessionStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                loginUser(currentUser);
+            }
+        }
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSession();
+
+            // Add event listeners to action buttons
+            document.querySelectorAll('.icon-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    alert(`${this.querySelector('span').textContent} feature would open here.`);
+                });
+            });
+
+            // Add event listeners to patient items (doctor dashboard)
+            document.querySelectorAll('.patient-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const patientName = this.querySelector('h4').textContent;
+                    alert(`Opening patient record for ${patientName}`);
+                });
+            });
+
+            // Add event listeners to appointment buttons (doctor dashboard)
+            document.querySelectorAll('.appointment-item button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const appointmentItem = this.closest('.appointment-item');
+                    const patientName = appointmentItem.querySelector('h4').textContent;
+
+                    if (this.querySelector('.fa-video')) {
+                        alert(`Starting video call with ${patientName}`);
+                    } else if (this.querySelector('.fa-file-medical')) {
+                        alert(`Opening medical records for ${patientName}`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications Example</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+
+  #notificationLink {
+    color: #007BFF;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  #notifications {
+    display: none; /* Hidden by default */
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 300px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+  }
+
+  .notification {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .notification:last-child {
+    border-bottom: none;
+  }
+</style>
+</head>
+<body>
+
+<h2>Notification Example</h2>
+<p>Click here to view notifications: <span id="notificationLink">View Notifications</span></p>
+
+<div id="notifications">
+  <div class="notification">Notification 1: You have a new message!</div>
+  <div class="notification">Notification 2: Your order has been shipped!</div>
+  <div class="notification">Notification 3: Reminder: Meeting at 3 PM</div>
+</div>
+
+<script>
+  const link = document.getElementById('notificationLink');
+  const notifications = document.getElementById('notifications');
+
+  link.addEventListener('click', () => {
+    if (notifications.style.display === 'none') {
+      notifications.style.display = 'block';
+    } else {
+      notifications.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>

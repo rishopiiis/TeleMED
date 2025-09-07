@@ -1,0 +1,2097 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>MedConnect Pro - Doctor Dashboard</title>-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">-->
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;primary: #2c3e50;-->
+<!--            &#45;&#45;primary-light: #34495e;-->
+<!--            &#45;&#45;primary-dark: #1a252f;-->
+<!--            &#45;&#45;secondary: #3498db;-->
+<!--            &#45;&#45;secondary-dark: #2980b9;-->
+<!--            &#45;&#45;accent: #e74c3c;-->
+<!--            &#45;&#45;accent-light: #ec7063;-->
+<!--            &#45;&#45;success: #27ae60;-->
+<!--            &#45;&#45;warning: #f39c12;-->
+<!--            &#45;&#45;light: #ecf0f1;-->
+<!--            &#45;&#45;dark: #2c3e50;-->
+<!--            &#45;&#45;gray: #7f8c8d;-->
+<!--            &#45;&#45;light-gray: #bdc3c7;-->
+<!--            &#45;&#45;card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);-->
+<!--            &#45;&#45;transition: all 0.3s ease;-->
+<!--        }-->
+
+<!--        * {-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            box-sizing: border-box;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
+<!--            background-color: #f5f7fa;-->
+<!--            color: #333;-->
+<!--            line-height: 1.6;-->
+<!--            min-height: 100vh;-->
+<!--        }-->
+
+<!--        .container {-->
+<!--            max-width: 1600px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 20px;-->
+<!--            display: grid;-->
+<!--            grid-template-columns: 250px 1fr 350px;-->
+<!--            gap: 20px;-->
+<!--        }-->
+
+<!--        header {-->
+<!--            background: white;-->
+<!--            padding: 20px;-->
+<!--            border-radius: 12px;-->
+<!--            margin-bottom: 20px;-->
+<!--            box-shadow: var(&#45;&#45;card-shadow);-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            grid-column: 1 / -1;-->
+<!--        }-->
+
+<!--        .welcome-section {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 15px;-->
+<!--        }-->
+
+<!--        .profile-img {-->
+<!--            width: 60px;-->
+<!--            height: 60px;-->
+<!--            border-radius: 50%;-->
+<!--            object-fit: cover;-->
+<!--            border: 3px solid var(&#45;&#45;primary);-->
+<!--        }-->
+
+<!--        .notification-area {-->
+<!--            display: flex;-->
+<!--            gap: 15px;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .notification-badge {-->
+<!--            background-color: var(&#45;&#45;accent);-->
+<!--            color: white;-->
+<!--            border-radius: 50%;-->
+<!--            padding: 3px 8px;-->
+<!--            font-size: 0.8rem;-->
+<!--            margin-left: 5px;-->
+<!--        }-->
+
+<!--        /* Sidebar Styles */-->
+<!--        .sidebar {-->
+<!--            background: white;-->
+<!--            border-radius: 12px;-->
+<!--            box-shadow: var(&#45;&#45;card-shadow);-->
+<!--            padding: 20px;-->
+<!--            height: fit-content;-->
+<!--        }-->
+
+<!--        .sidebar-menu {-->
+<!--            list-style: none;-->
+<!--        }-->
+
+<!--        .sidebar-menu li {-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+
+<!--        .sidebar-menu a {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 10px;-->
+<!--            padding: 12px 15px;-->
+<!--            border-radius: 8px;-->
+<!--            color: var(&#45;&#45;dark);-->
+<!--            text-decoration: none;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
+
+<!--        .sidebar-menu a:hover, .sidebar-menu a.active {-->
+<!--            background: var(&#45;&#45;primary);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        /* Main Content Styles */-->
+<!--        .main-content {-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            gap: 20px;-->
+<!--        }-->
+
+<!--        .dashboard-grid {-->
+<!--            display: grid;-->
+<!--            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));-->
+<!--            gap: 20px;-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .card {-->
+<!--            background: white;-->
+<!--            padding: 20px;-->
+<!--            border-radius: 12px;-->
+<!--            box-shadow: var(&#45;&#45;card-shadow);-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
+
+<!--        .card:hover {-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 8px 16px rgba(0,0,0,0.15);-->
+<!--        }-->
+
+<!--        .card-header {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            margin-bottom: 15px;-->
+<!--            padding-bottom: 10px;-->
+<!--            border-bottom: 1px solid var(&#45;&#45;light-gray);-->
+<!--        }-->
+
+<!--        h1, h2, h3, h4 {-->
+<!--            color: var(&#45;&#45;dark);-->
+<!--        }-->
+
+<!--        h2 {-->
+<!--            font-size: 1.4rem;-->
+<!--        }-->
+
+<!--        button {-->
+<!--            padding: 10px 16px;-->
+<!--            border: none;-->
+<!--            border-radius: 6px;-->
+<!--            cursor: pointer;-->
+<!--            font-weight: 500;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
+
+<!--        button:hover {-->
+<!--            transform: translateY(-2px);-->
+<!--        }-->
+
+<!--        .btn-primary {-->
+<!--            background: var(&#45;&#45;primary);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .btn-primary:hover {-->
+<!--            background: var(&#45;&#45;primary-dark);-->
+<!--        }-->
+
+<!--        .btn-secondary {-->
+<!--            background: var(&#45;&#45;secondary);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .btn-secondary:hover {-->
+<!--            background: var(&#45;&#45;secondary-dark);-->
+<!--        }-->
+
+<!--        .btn-accent {-->
+<!--            background: var(&#45;&#45;accent);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .btn-accent:hover {-->
+<!--            background: var(&#45;&#45;accent-light);-->
+<!--        }-->
+
+<!--        .btn-success {-->
+<!--            background: var(&#45;&#45;success);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        /* Tab Content Styles */-->
+<!--        .tab-content {-->
+<!--            display: none;-->
+<!--        }-->
+
+<!--        .tab-content.active {-->
+<!--            display: block;-->
+<!--        }-->
+
+<!--        /* Condition Selection Styles */-->
+<!--        .condition-grid {-->
+<!--            display: grid;-->
+<!--            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));-->
+<!--            gap: 15px;-->
+<!--            margin-top: 15px;-->
+<!--        }-->
+
+<!--        .condition-card {-->
+<!--            background: var(&#45;&#45;light);-->
+<!--            padding: 15px;-->
+<!--            border-radius: 8px;-->
+<!--            text-align: center;-->
+<!--            cursor: pointer;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
+
+<!--        .condition-card:hover {-->
+<!--            background: var(&#45;&#45;primary);-->
+<!--            color: white;-->
+<!--            transform: translateY(-3px);-->
+<!--        }-->
+
+<!--        .condition-card i {-->
+<!--            font-size: 2rem;-->
+<!--            margin-bottom: 10px;-->
+<!--            color: var(&#45;&#45;primary);-->
+<!--        }-->
+
+<!--        .condition-card:hover i {-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        /* Specialist Referral Styles */-->
+<!--        .specialist-modal {-->
+<!--            display: none;-->
+<!--            position: fixed;-->
+<!--            top: 0;-->
+<!--            left: 0;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            background: rgba(0, 0, 0, 0.5);-->
+<!--            z-index: 1000;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .specialist-modal-content {-->
+<!--            background: white;-->
+<!--            border-radius: 12px;-->
+<!--            padding: 25px;-->
+<!--            width: 90%;-->
+<!--            max-width: 600px;-->
+<!--            max-height: 80vh;-->
+<!--            overflow-y: auto;-->
+<!--            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);-->
+<!--        }-->
+
+<!--        .specialist-list {-->
+<!--            margin-top: 15px;-->
+<!--        }-->
+
+<!--        .specialist-item {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 15px;-->
+<!--            padding: 12px;-->
+<!--            border-radius: 8px;-->
+<!--            background: var(&#45;&#45;light);-->
+<!--            margin-bottom: 10px;-->
+<!--            cursor: pointer;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
+
+<!--        .specialist-item:hover {-->
+<!--            background: #dfe6e9;-->
+<!--        }-->
+
+<!--        .specialist-img {-->
+<!--            width: 50px;-->
+<!--            height: 50px;-->
+<!--            border-radius: 50%;-->
+<!--            object-fit: cover;-->
+<!--        }-->
+
+<!--        /* Chatbot Styles */-->
+<!--        .chatbot-container {-->
+<!--            background: white;-->
+<!--            border-radius: 12px;-->
+<!--            box-shadow: var(&#45;&#45;card-shadow);-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            height: 500px;-->
+<!--        }-->
+
+<!--        .chatbot-header {-->
+<!--            padding: 15px 20px;-->
+<!--            background: var(&#45;&#45;primary);-->
+<!--            color: white;-->
+<!--            border-radius: 12px 12px 0 0;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 10px;-->
+<!--        }-->
+
+<!--        .chatbot-messages {-->
+<!--            flex: 1;-->
+<!--            padding: 15px;-->
+<!--            overflow-y: auto;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            gap: 15px;-->
+<!--        }-->
+
+<!--        .message {-->
+<!--            max-width: 80%;-->
+<!--            padding: 12px;-->
+<!--            border-radius: 18px;-->
+<!--            line-height: 1.4;-->
+<!--        }-->
+
+<!--        .bot-message {-->
+<!--            background: var(&#45;&#45;light);-->
+<!--            align-self: flex-start;-->
+<!--            border-bottom-left-radius: 4px;-->
+<!--        }-->
+
+<!--        .user-message {-->
+<!--            background: var(&#45;&#45;primary-light);-->
+<!--            color: white;-->
+<!--            align-self: flex-end;-->
+<!--            border-bottom-right-radius: 4px;-->
+<!--        }-->
+
+<!--        .chatbot-input {-->
+<!--            display: flex;-->
+<!--            padding: 15px;-->
+<!--            border-top: 1px solid var(&#45;&#45;light-gray);-->
+<!--        }-->
+
+<!--        .chatbot-input input {-->
+<!--            flex: 1;-->
+<!--            padding: 12px;-->
+<!--            border: 1px solid var(&#45;&#45;light-gray);-->
+<!--            border-radius: 20px;-->
+<!--            outline: none;-->
+<!--        }-->
+
+<!--        .chatbot-input button {-->
+<!--            margin-left: 10px;-->
+<!--            border-radius: 50%;-->
+<!--            width: 40px;-->
+<!--            height: 40px;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            background: var(&#45;&#45;primary);-->
+<!--        }-->
+
+<!--        .quick-replies {-->
+<!--            display: flex;-->
+<!--            flex-wrap: wrap;-->
+<!--            gap: 8px;-->
+<!--            margin-top: 10px;-->
+<!--        }-->
+
+<!--        .quick-reply {-->
+<!--            background: white;-->
+<!--            border: 1px solid var(&#45;&#45;light-gray);-->
+<!--            border-radius: 16px;-->
+<!--            padding: 6px 12px;-->
+<!--            font-size: 0.9rem;-->
+<!--            cursor: pointer;-->
+<!--            transition: var(&#45;&#45;transition);-->
+<!--        }-->
+
+<!--        .quick-reply:hover {-->
+<!--            background: var(&#45;&#45;primary-light);-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        /* Alert Styles */-->
+<!--        .alert-container {-->
+<!--            position: fixed;-->
+<!--            top: 20px;-->
+<!--            right: 20px;-->
+<!--            z-index: 1000;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            gap: 10px;-->
+<!--        }-->
+
+<!--        .alert {-->
+<!--            padding: 15px;-->
+<!--            border-radius: 8px;-->
+<!--            background: white;-->
+<!--            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 10px;-->
+<!--            animation: slideIn 0.3s ease;-->
+<!--        }-->
+
+<!--        .alert.success {-->
+<!--            border-left: 4px solid var(&#45;&#45;success);-->
+<!--        }-->
+
+<!--        .alert.warning {-->
+<!--            border-left: 4px solid var(&#45;&#45;warning);-->
+<!--        }-->
+
+<!--        .alert.error {-->
+<!--            border-left: 4px solid var(&#45;&#45;accent);-->
+<!--        }-->
+
+<!--        .alert.info {-->
+<!--            border-left: 4px solid var(&#45;&#45;secondary);-->
+<!--        }-->
+
+<!--        @keyframes slideIn {-->
+<!--            from {-->
+<!--                transform: translateX(100%);-->
+<!--                opacity: 0;-->
+<!--            }-->
+<!--            to {-->
+<!--                transform: translateX(0);-->
+<!--                opacity: 1;-->
+<!--            }-->
+<!--        }-->
+
+<!--        @keyframes slideOut {-->
+<!--            from {-->
+<!--                transform: translateX(0);-->
+<!--                opacity: 1;-->
+<!--            }-->
+<!--            to {-->
+<!--                transform: translateX(100%);-->
+<!--                opacity: 0;-->
+<!--            }-->
+<!--        }-->
+
+<!--        /* Responsive Styles */-->
+<!--        @media (max-width: 1200px) {-->
+<!--            .container {-->
+<!--                grid-template-columns: 1fr;-->
+<!--            }-->
+
+<!--            .sidebar {-->
+<!--                display: none;-->
+<!--            }-->
+<!--        }-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .dashboard-grid {-->
+<!--                grid-template-columns: 1fr;-->
+<!--            }-->
+
+<!--            .condition-grid {-->
+<!--                grid-template-columns: repeat(2, 1fr);-->
+<!--            }-->
+
+<!--            header {-->
+<!--                flex-direction: column;-->
+<!--                text-align: center;-->
+<!--                gap: 15px;-->
+<!--            }-->
+
+<!--            .notification-area {-->
+<!--                justify-content: center;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="alert-container" id="alertContainer"></div>-->
+
+<!--    &lt;!&ndash; Specialist Referral Modal &ndash;&gt;-->
+<!--    <div class="specialist-modal" id="specialistModal">-->
+<!--        <div class="specialist-modal-content">-->
+<!--            <div class="card-header">-->
+<!--                <h2 id="modalTitle">Refer to Specialist</h2>-->
+<!--                <button class="btn-accent" id="closeModalBtn"><i class="fas fa-times"></i></button>-->
+<!--            </div>-->
+<!--            <div id="modalContent">-->
+<!--                <p>Select a specialist to refer your patient to:</p>-->
+<!--                <div class="specialist-list" id="specialistList">-->
+<!--                    &lt;!&ndash; Specialists will be populated here &ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="container">-->
+<!--        <header>-->
+<!--            <div class="welcome-section">-->
+<!--                <img src="https://xsgames.co/randomusers/avatar.php?g=male&id=doc1" alt="Profile" class="profile-img">-->
+<!--                <div>-->
+<!--                    <h1>Doctor Dashboard</h1>-->
+<!--                    <p id="usernameDisplay">Welcome, Dr. Michael Chen!</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="notification-area">-->
+<!--                <button class="btn-primary" id="newAppointmentBtn"><i class="fas fa-calendar-plus"></i> New Appointment</button>-->
+<!--                <button class="btn-secondary" id="alertsBtn"><i class="fas fa-bell"></i> Alerts <span class="notification-badge">3</span></button>-->
+<!--                <button id="logoutBtn" class="btn-accent"><i class="fas fa-sign-out-alt"></i> Logout</button>-->
+<!--            </div>-->
+<!--        </header>-->
+
+<!--        <aside class="sidebar">-->
+<!--            <h3>Navigation</h3>-->
+<!--            <ul class="sidebar-menu">-->
+<!--                <li><a href="#" class="active" data-tab="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>-->
+<!--                <li><a href="#" data-tab="appointments"><i class="fas fa-calendar-check"></i> Appointments</a></li>-->
+<!--                <li><a href="#" data-tab="patients"><i class="fas fa-user-injured"></i> Patients</a></li>-->
+<!--                <li><a href="#" data-tab="prescriptions"><i class="fas fa-prescription"></i> Prescriptions</a></li>-->
+<!--                <li><a href="#" data-tab="telehealth"><i class="fas fa-stethoscope"></i> Telehealth</a></li>-->
+<!--                <li><a href="#" data-tab="referrals"><i class="fas fa-user-md"></i> Specialist Referrals</a></li>-->
+<!--                <li><a href="#" data-tab="records"><i class="fas fa-file-medical"></i> Medical Records</a></li>-->
+<!--                <li><a href="#" data-tab="analytics"><i class="fas fa-chart-line"></i> Analytics</a></li>-->
+<!--            </ul>-->
+
+<!--            <div style="margin-top: 20px;">-->
+<!--                <h3>Quick Actions</h3>-->
+<!--                <button class="btn-success" id="newPatientBtn" style="width: 100%; margin-top: 10px;"><i class="fas fa-plus"></i> New Patient</button>-->
+<!--                <button class="btn-primary" id="writePrescriptionBtn" style="width: 100%; margin-top: 10px;"><i class="fas fa-file-prescription"></i> Write Rx</button>-->
+<!--                <button class="btn-secondary" id="startConsultationBtn" style="width: 100%; margin-top: 10px;"><i class="fas fa-video"></i> Start Consultation</button>-->
+<!--            </div>-->
+<!--        </aside>-->
+
+<!--        <main class="main-content">-->
+<!--            &lt;!&ndash; Dashboard Tab &ndash;&gt;-->
+<!--            <div class="tab-content active" id="dashboard-tab">-->
+<!--                <div class="dashboard-grid">-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <h2><i class="fas fa-calendar-check"></i> Today's Appointments</h2>-->
+<!--                            <span class="notification-badge">5</span>-->
+<!--                        </div>-->
+<!--                        <div class="appointment-list">-->
+<!--                            <div class="appointment-item">-->
+<!--                                <div class="appointment-details">-->
+<!--                                    <h4>Sarah Johnson</h4>-->
+<!--                                    <p>2:30 PM - Follow-up</p>-->
+<!--                                </div>-->
+<!--                                <div class="appointment-actions">-->
+<!--                                    <span class="status-badge status-upcoming">Upcoming</span>-->
+<!--                                    <button class="btn-primary"><i class="fas fa-video"></i></button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="appointment-item">-->
+<!--                                <div class="appointment-details">-->
+<!--                                    <h4>Robert Williams</h4>-->
+<!--                                    <p>3:45 PM - Consultation</p>-->
+<!--                                </div>-->
+<!--                                <div class="appointment-actions">-->
+<!--                                    <span class="status-badge status-upcoming">Upcoming</span>-->
+<!--                                    <button class="btn-primary"><i class="fas fa-video"></i></button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="appointment-item">-->
+<!--                                <div class="appointment-details">-->
+<!--                                    <h4>Emily Davis</h4>-->
+<!--                                    <p>10:15 AM - Completed</p>-->
+<!--                                </div>-->
+<!--                                <div class="appointment-actions">-->
+<!--                                    <span class="status-badge status-completed">Completed</span>-->
+<!--                                    <button class="btn-secondary"><i class="fas fa-file-medical"></i></button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <button class="btn-primary" style="width: 100%; margin-top: 15px;">-->
+<!--                            <i class="fas fa-list"></i> View All Appointments-->
+<!--                        </button>-->
+<!--                    </div>-->
+
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <h2><i class="fas fa-user-injured"></i> Recent Patients</h2>-->
+<!--                        </div>-->
+<!--                        <div class="patient-list">-->
+<!--                            <div class="patient-item">-->
+<!--                                <img src="https://xsgames.co/randomusers/avatar.php?g=female&id=pat1" class="profile-img">-->
+<!--                                <div>-->
+<!--                                    <h4>Maria Garcia</h4>-->
+<!--                                    <p>Last visit: Today</p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="patient-item">-->
+<!--                                <img src="https://xsgames.co/randomusers/avatar.php?g=male&id=pat2" class="profile-img">-->
+<!--                                <div>-->
+<!--                                    <h4>James Wilson</h4>-->
+<!--                                    <p>Last visit: Yesterday</p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="patient-item">-->
+<!--                                <img src="https://xsgames.co/randomusers/avatar.php?g=female&id=pat3" class="profile-img">-->
+<!--                                <div>-->
+<!--                                    <h4>Lisa Anderson</h4>-->
+<!--                                    <p>Last visit: 2 days ago</p>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <button class="btn-primary" style="width: 100%; margin-top: 15px;">-->
+<!--                            <i class="fas fa-search"></i> Search Patients-->
+<!--                        </button>-->
+<!--                    </div>-->
+
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <h2><i class="fas fa-chart-line"></i> Practice Metrics</h2>-->
+<!--                        </div>-->
+<!--                        <div class="metrics-grid">-->
+<!--                            <div class="metric">-->
+<!--                                <div class="metric-value">18</div>-->
+<!--                                <div class="metric-label">Patients Today</div>-->
+<!--                            </div>-->
+<!--                            <div class="metric">-->
+<!--                                <div class="metric-value">92%</div>-->
+<!--                                <div class="metric-label">Attendance Rate</div>-->
+<!--                            </div>-->
+<!--                            <div class="metric">-->
+<!--                                <div class="metric-value">34</div>-->
+<!--                                <div class="metric-label">Weekly Appointments</div>-->
+<!--                            </div>-->
+<!--                            <div class="metric">-->
+<!--                                <div class="metric-value">15m</div>-->
+<!--                                <div class="metric-label">Avg. Wait Time</div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <h2><i class="fas fa-prescription"></i> Recent Prescriptions</h2>-->
+<!--                        </div>-->
+<!--                        <div class="appointment-list">-->
+<!--                            <div class="appointment-item">-->
+<!--                                <div class="appointment-details">-->
+<!--                                    <h4>Lisinopril 10mg</h4>-->
+<!--                                    <p>For: Robert Williams</p>-->
+<!--                                </div>-->
+<!--                                <span class="status-badge status-upcoming">Active</span>-->
+<!--                            </div>-->
+<!--                            <div class="appointment-item">-->
+<!--                                <div class="appointment-details">-->
+<!--                                    <h4>Metformin 500mg</h4>-->
+<!--                                    <p>For: Emily Davis</p>-->
+<!--                                </div>-->
+<!--                                <span class="status-badge status-upcoming">Active</span>-->
+<!--                            </div>-->
+<!--                            <div class="appointment-item">-->
+<!--                                <div class="appointment-details">-->
+<!--                                    <h4>Amoxicillin 250mg</h4>-->
+<!--                                    <p>For: Sarah Johnson</p>-->
+<!--                                </div>-->
+<!--                                <span class="status-badge status-completed">Completed</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <button class="btn-primary" style="width: 100%; margin-top: 15px;">-->
+<!--                            <i class="fas fa-file-prescription"></i> Write New Prescription-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="card">-->
+<!--                    <div class="card-header">-->
+<!--                        <h2><i class="fas fa-stethoscope"></i> Telehealth Sessions</h2>-->
+<!--                    </div>-->
+<!--                    <div class="metrics-grid">-->
+<!--                        <div class="metric">-->
+<!--                            <div class="metric-value">12</div>-->
+<!--                            <div class="metric-label">Sessions Today</div>-->
+<!--                        </div>-->
+<!--                        <div class="metric">-->
+<!--                            <div class="metric-value">87%</div>-->
+<!--                            <div class="metric-label">Patient Satisfaction</div>-->
+<!--                        </div>-->
+<!--                        <div class="metric">-->
+<!--                            <div class="metric-value">4.8/5</div>-->
+<!--                            <div class="metric-label">Average Rating</div>-->
+<!--                        </div>-->
+<!--                        <div class="metric">-->
+<!--                            <div class="metric-value">2</div>-->
+<!--                            <div class="metric-label">Waiting Now</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div style="display: flex; gap: 10px; margin-top: 15px;">-->
+<!--                        <button class="btn-primary"><i class="fas fa-video"></i> Start Session</button>-->
+<!--                        <button class="btn-secondary"><i class="fas fa-list"></i> View Queue</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Specialist Referrals Tab &ndash;&gt;-->
+<!--            <div class="tab-content" id="referrals-tab">-->
+<!--                <div class="card">-->
+<!--                    <div class="card-header">-->
+<!--                        <h2><i class="fas fa-user-md"></i> Specialist Referrals</h2>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        <p>Select a condition to find appropriate specialists:</p>-->
+<!--                        <div class="condition-grid">-->
+<!--                            <div class="condition-card" data-condition="cardiology">-->
+<!--                                <i class="fas fa-heart"></i>-->
+<!--                                <h4>Cardiology</h4>-->
+<!--                            </div>-->
+<!--                            <div class="condition-card" data-condition="endocrinology">-->
+<!--                                <i class="fas fa-tint"></i>-->
+<!--                                <h4>Endocrinology</h4>-->
+<!--                            </div>-->
+<!--                            <div class="condition-card" data-condition="orthopedics">-->
+<!--                                <i class="fas fa-bone"></i>-->
+<!--                                <h4>Orthopedics</h4>-->
+<!--                            </div>-->
+<!--                            <div class="condition-card" data-condition="neurology">-->
+<!--                                <i class="fas fa-brain"></i>-->
+<!--                                <h4>Neurology</h4>-->
+<!--                            </div>-->
+<!--                            <div class="condition-card" data-condition="dermatology">-->
+<!--                                <i class="fas fa-allergies"></i>-->
+<!--                                <h4>Dermatology</h4>-->
+<!--                            </div>-->
+<!--                            <div class="condition-card" data-condition="gastroenterology">-->
+<!--                                <i class="fas fa-stomach"></i>-->
+<!--                                <h4>Gastroenterology</h4>-->
+<!--                            </div>-->
+<!--                            <div class="condition-card" data-condition="pulmonology">-->
+<!--                                <i class="fas fa-lungs"></i>-->
+<!--                                <h4>Pulmonology</h4>-->
+<!--                            </div>-->
+<!--                            <div class="condition-card" data-condition="oncology">-->
+<!--                                <i class="fas fa-band-aid"></i>-->
+<!--                                <h4>Oncology</h4>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="card">-->
+<!--                    <div class="card-header">-->
+<!--                        <h2><i class="fas fa-history"></i> Recent Referrals</h2>-->
+<!--                    </div>-->
+<!--                    <div class="appointment-list">-->
+<!--                        <div class="appointment-item">-->
+<!--                            <div class="appointment-details">-->
+<!--                                <h4>Robert Williams</h4>-->
+<!--                                <p>Referred to Cardiology - Dr. Chen</p>-->
+<!--                            </div>-->
+<!--                            <span class="status-badge status-upcoming">Pending</span>-->
+<!--                        </div>-->
+<!--                        <div class="appointment-item">-->
+<!--                            <div class="appointment-details">-->
+<!--                                <h4>Emily Davis</h4>-->
+<!--                                <p>Referred to Endocrinology - Dr. Rodriguez</p>-->
+<!--                            </div>-->
+<!--                            <span class="status-badge status-completed">Completed</span>-->
+<!--                        </div>-->
+<!--                        <div class="appointment-item">-->
+<!--                            <div class="appointment-details">-->
+<!--                                <h4>Sarah Johnson</h4>-->
+<!--                                <p>Referred to Orthopedics - Dr. Wilson</p>-->
+<!--                            </div>-->
+<!--                            <span class="status-badge status-completed">Completed</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Other tabs would go here &ndash;&gt;-->
+<!--            <div class="tab-content" id="appointments-tab">-->
+<!--                &lt;!&ndash; Appointments content &ndash;&gt;-->
+<!--            </div>-->
+
+<!--            <div class="tab-content" id="patients-tab">-->
+<!--                &lt;!&ndash; Patients content &ndash;&gt;-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Additional tab contents would be here &ndash;&gt;-->
+<!--        </main>-->
+
+<!--        <aside>-->
+<!--            <div class="chatbot-container">-->
+<!--                <div class="chatbot-header">-->
+<!--                    <i class="fas fa-robot"></i>-->
+<!--                    <h3>Medical Assistant AI</h3>-->
+<!--                </div>-->
+<!--                <div class="chatbot-messages" id="chatbotMessages">-->
+<!--                    <div class="message bot-message">-->
+<!--                        Hello Dr. Chen! I'm your Medical Assistant. How can I help you today?-->
+<!--                    </div>-->
+<!--                    <div class="message bot-message">-->
+<!--                        You can ask me about:-->
+<!--                        <div class="quick-replies">-->
+<!--                            <div class="quick-reply" data-msg="Treatment guidelines">Treatment Guidelines</div>-->
+<!--                            <div class="quick-reply" data-msg="My schedule">My Schedule</div>-->
+<!--                            <div class="quick-reply" data-msg="Drug interactions">Drug Interactions</div>-->
+<!--                            <div class="quick-reply" data-msg="Specialist referral">Specialist Referral</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="chatbot-input">-->
+<!--                    <input type="text" id="chatbotInput" placeholder="Ask a medical question...">-->
+<!--                    <button class="btn-primary" id="sendMessageBtn"><i class="fas fa-paper-plane"></i></button>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="card" style="margin-top: 20px;">-->
+<!--                <div class="card-header">-->
+<!--                    <h2><i class="fas fa-bell"></i> Notifications</h2>-->
+<!--                </div>-->
+<!--                <div class="appointment-list">-->
+<!--                    <div class="appointment-item">-->
+<!--                        <div class="appointment-details">-->
+<!--                            <h4>Lab Results Ready</h4>-->
+<!--                            <p>Sarah Johnson - CBC Panel</p>-->
+<!--                        </div>-->
+<!--                        <span class="status-badge status-upcoming">New</span>-->
+<!--                    </div>-->
+<!--                    <div class="appointment-item">-->
+<!--                        <div class="appointment-details">-->
+<!--                            <h4>Appointment Change</h4>-->
+<!--                            <p>Robert Williams rescheduled</p>-->
+<!--                        </div>-->
+<!--                        <span class="status-badge status-upcoming">Alert</span>-->
+<!--                    </div>-->
+<!--                    <div class="appointment-item">-->
+<!--                        <div class="appointment-details">-->
+<!--                            <h4>Pharmacy Request</h4>-->
+<!--                            <p>Refill authorization needed</p>-->
+<!--                        </div>-->
+<!--                        <span class="status-badge status-upcoming">Pending</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </aside>-->
+<!--    </div>-->
+
+<!--    <script>-->
+<!--        // Doctor data-->
+<!--        const doctorData = {-->
+<!--            name: "Dr. Michael Chen",-->
+<!--            email: "m.chen@medconnect.com",-->
+<!--            specialty: "Cardiology",-->
+<!--            patients: 42,-->
+<!--            profileImage: "https://xsgames.co/randomusers/avatar.php?g=male&id=doc1",-->
+<!--            lastLogin: new Date().toLocaleString()-->
+<!--        };-->
+
+<!--        // Condition to specialist mapping-->
+<!--        const conditionSpecialists = {-->
+<!--            "cardiology": [-->
+<!--                { name: "Dr. Michael Chen", specialty: "Cardiology", availability: "Today", img: "https://xsgames.co/randomusers/avatar.php?g=male&id=doc1" },-->
+<!--                { name: "Dr. Lisa Wang", specialty: "Cardiothoracic Surgery", availability: "Tomorrow", img: "https://xsgames.co/randomusers/avatar.php?g=female&id=doc2" },-->
+<!--                { name: "Dr. James Wilson", specialty: "Interventional Cardiology", availability: "Next Week", img: "https://xsgames.co/randomusers/avatar.php?g=male&id=doc3" }-->
+<!--            ],-->
+<!--            "endocrinology": [-->
+<!--                { name: "Dr. Emily Rodriguez", specialty: "Endocrinology", availability: "Today", img: "https://xsgames.co/randomusers/avatar.php?g=female&id=doc4" },-->
+<!--                { name: "Dr. Robert Brown", specialty: "Diabetes Specialist", availability: "Tomorrow", img: "https://xsgames.co/randomusers/avatar.php?g=male&id=doc5" }-->
+<!--            ],-->
+<!--            "orthopedics": [-->
+<!--                { name: "Dr. Sarah Johnson", specialty: "Orthopedic Surgery", availability: "Today", img: "https://xsgames.co/randomusers/avatar.php?g=female&id=doc6" },-->
+<!--                { name: "Dr. David Miller", specialty: "Sports Medicine", availability: "Tomorrow", img: "https://xsgames.co/randomusers/avatar.php?g=male&id=doc7" }-->
+<!--            ],-->
+<!--            "neurology": [-->
+<!--                { name: "Dr. Jennifer Lee", specialty: "Neurology", availability: "Today", img: "https://xsgames.co/randomusers/avatar.php?g=female&id=doc8" },-->
+<!--                { name: "Dr. Thomas Anderson", specialty: "Neurophysiology", availability: "Next Week", img: "https://xsgames.co/randomusers/avatar.php?g=male&id=doc9" }-->
+<!--            ],-->
+<!--            "dermatology": [-->
+<!--                { name: "Dr. Maria Garcia", specialty: "Dermatology", availability: "Tomorrow", img: "https://xsgames.co/randomusers/avatar.php?g=female&id=doc10" },-->
+<!--                { name: "Dr. Christopher Taylor", specialty: "Cosmetic Dermatology", availability: "Next Week", img: "https://xsgames.co/randomusers/avatar.php?g=male&id=doc11" }-->
+<!--            ],-->
+<!--            "gastroenterology": [-->
+<!--                { name: "Dr. Richard Davis", specialty: "Gastroenterology", availability: "Today", img: "https://xsgames.co/randomusers/avatar.php?g=male&id=doc12" },-->
+<!--                { name: "Dr. Susan Martin", specialty: "Hepatology", availability: "Tomorrow", img: "https://xsgames.co/randomusers/avatar.php?g=female&id=doc13" }-->
+<!--            ],-->
+<!--            "pulmonology": [-->
+<!--                { name: "Dr. Daniel White", specialty: "Pulmonology", availability: "Today", img: "https://xsgames.co/randomusers/avatar.php?g=male&id=doc14" },-->
+<!--                { name: "Dr. Patricia Harris", specialty: "Critical Care Medicine", availability: "Next Week", img: "https://xsgames.co/randomusers/avatar.php?g=female&id=doc15" }-->
+<!--            ],-->
+<!--            "oncology": [-->
+<!--                { name: "Dr. Elizabeth Clark", specialty: "Oncology", availability: "Tomorrow", img: "https://xsgames.co/randomusers/avatar.php?g=female&id=doc16" },-->
+<!--                { name: "Dr. Matthew Lewis", specialty: "Radiation Oncology", availability: "Next Week", img: "https://xsgames.co/randomusers/avatar.php?g=male&id=doc17" }-->
+<!--            ]-->
+<!--        };-->
+
+<!--        // Chatbot responses-->
+<!--        const chatbotResponses = {-->
+<!--            "treatment guidelines": "Based on current guidelines, I can provide treatment recommendations. What condition are you treating?",-->
+<!--            "my schedule": "You have 5 appointments today. Your next appointment is with Sarah Johnson at 2:30 PM.",-->
+<!--            "drug interactions": "I can check drug interactions. Please specify the medications.",-->
+<!--            "specialist referral": "I can help you with specialist referrals. Which specialty are you looking for?",-->
+<!--            "hello": "Hello Dr. Chen! How can I assist you with your patients today?",-->
+<!--            "default": "I'm sorry, I didn't understand that. Can you please rephrase or ask about treatment guidelines, your schedule, drug interactions, or specialist referrals?"-->
+<!--        };-->
+
+<!--        // Tab functionality-->
+<!--        function setupTabs() {-->
+<!--            const tabLinks = document.querySelectorAll('.sidebar-menu a');-->
+<!--            const tabContents = document.querySelectorAll('.tab-content');-->
+
+<!--            tabLinks.forEach(link => {-->
+<!--                link.addEventListener('click', function(e) {-->
+<!--                    e.preventDefault();-->
+
+<!--                    // Remove active class from all tabs-->
+<!--                    tabLinks.forEach(tab => tab.classList.remove('active'));-->
+<!--                    tabContents.forEach(content => content.classList.remove('active'));-->
+
+<!--                    // Add active class to clicked tab-->
+<!--                    this.classList.add('active');-->
+<!--                    const tabId = this.getAttribute('data-tab');-->
+<!--                    document.getElementById(`${tabId}-tab`).classList.add('active');-->
+<!--                });-->
+<!--            });-->
+<!--        }-->
+
+<!--        // Condition selection functionality-->
+<!--        function setupConditionSelection() {-->
+<!--            const conditionCards = document.querySelectorAll('.condition-card');-->
+<!--            const specialistModal = document.getElementById('specialistModal');-->
+<!--            const modalTitle = document.getElementById('modalTitle');-->
+<!--            const specialistList = document.getElementById('specialistList');-->
+<!--            const closeModalBtn = document.getElementById('closeModalBtn');-->
+
+<!--            conditionCards.forEach(card => {-->
+<!--                card.addEventListener('click', function() {-->
+<!--                    const condition = this.getAttribute('data-condition');-->
+<!--                    const conditionName = this.querySelector('h4').textContent;-->
+
+<!--                    // Update modal title-->
+<!--                    modalTitle.textContent = `Refer to ${conditionName} Specialist`;-->
+
+<!--                    // Clear previous specialist list-->
+<!--                    specialistList.innerHTML = '';-->
+
+<!--                    // Add specialists to the modal-->
+<!--                    if (conditionSpecialists[condition]) {-->
+<!--                        conditionSpecialists[condition].forEach(specialist => {-->
+<!--                            const specialistItem = document.createElement('div');-->
+<!--                            specialistItem.classList.add('specialist-item');-->
+<!--                            specialistItem.innerHTML = `-->
+<!--                                <img src="${specialist.img}" class="specialist-img">-->
+<!--                                <div>-->
+<!--                                    <h4>${specialist.name}</h4>-->
+<!--                                    <p>${specialist.specialty} | Available: ${specialist.availability}</p>-->
+<!--                                </div>-->
+<!--                                <button class="btn-primary">Refer</button>-->
+<!--                            `;-->
+<!--                            specialistList.appendChild(specialistItem);-->
+
+<!--                            // Add event listener to refer button-->
+<!--                            const referBtn = specialistItem.querySelector('button');-->
+<!--                            referBtn.addEventListener('click', function(e) {-->
+<!--                                e.stopPropagation();-->
+<!--                                showAlert(`Referral sent to ${specialist.name}`, 'success');-->
+<!--                                specialistModal.style.display = 'none';-->
+<!--                            });-->
+<!--                        });-->
+<!--                    } else {-->
+<!--                        specialistList.innerHTML = '<p>No specialists found for this condition.</p>';-->
+<!--                    }-->
+
+<!--                    // Show the modal-->
+<!--                    specialistModal.style.display = 'flex';-->
+<!--                });-->
+<!--            });-->
+
+<!--            // Close modal button-->
+<!--            closeModalBtn.addEventListener('click', function() {-->
+<!--                specialistModal.style.display = 'none';-->
+<!--            });-->
+
+<!--            // Close modal when clicking outside-->
+<!--            window.addEventListener('click', function(e) {-->
+<!--                if (e.target === specialistModal) {-->
+<!--                    specialistModal.style.display = 'none';-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+
+<!--        // Chatbot functionality-->
+<!--        function setupChatbot() {-->
+<!--            const messagesContainer = document.getElementById('chatbotMessages');-->
+<!--            const input = document.getElementById('chatbotInput');-->
+<!--            const sendButton = document.getElementById('sendMessageBtn');-->
+
+<!--            function addMessage(message, isUser = false) {-->
+<!--                const messageDiv = document.createElement('div');-->
+<!--                messageDiv.classList.add('message');-->
+<!--                messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');-->
+<!--                messageDiv.textContent = message;-->
+<!--                messagesContainer.appendChild(messageDiv);-->
+<!--                messagesContainer.scrollTop = messagesContainer.scrollHeight;-->
+<!--            }-->
+
+<!--            function processMessage(message) {-->
+<!--                const lowerMsg = message.toLowerCase();-->
+<!--                let response = chatbotResponses.default;-->
+
+<!--                if (lowerMsg.includes('treatment') || lowerMsg.includes('guideline')) {-->
+<!--                    response = chatbotResponses["treatment guidelines"];-->
+<!--                } else if (lowerMsg.includes('schedule') || lowerMsg.includes('appointment')) {-->
+<!--                    response = chatbotResponses["my schedule"];-->
+<!--                } else if (lowerMsg.includes('drug') || lowerMsg.includes('interaction') || lowerMsg.includes('medication')) {-->
+<!--                    response = chatbotResponses["drug interactions"];-->
+<!--                } else if (lowerMsg.includes('specialist') || lowerMsg.includes('referral')) {-->
+<!--                    response = chatbotResponses["specialist referral"];-->
+<!--                } else if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {-->
+<!--                    response = chatbotResponses["hello"];-->
+<!--                }-->
+
+<!--                // Simulate typing delay-->
+<!--                setTimeout(() => {-->
+<!--                    addMessage(response);-->
+
+<!--                    // Add quick replies for follow-up-->
+<!--                    if (!isUser) {-->
+<!--                        const quickReplies = document.createElement('div');-->
+<!--                        quickReplies.classList.add('quick-replies');-->
+
+<!--                        if (lowerMsg.includes('treatment') || lowerMsg.includes('guideline')) {-->
+<!--                            quickReplies.innerHTML = `-->
+<!--                                <div class="quick-reply" data-msg="Cardiology">Cardiology</div>-->
+<!--                                <div class="quick-reply" data-msg="Endocrinology">Endocrinology</div>-->
+<!--                                <div class="quick-reply" data-msg="Orthopedics">Orthopedics</div>-->
+<!--                                <div class="quick-reply" data-msg="Neurology">Neurology</div>-->
+<!--                            `;-->
+<!--                        } else if (lowerMsg.includes('specialist') || lowerMsg.includes('referral')) {-->
+<!--                            quickReplies.innerHTML = `-->
+<!--                                <div class="quick-reply" data-msg="Cardiology referral">Cardiology</div>-->
+<!--                                <div class="quick-reply" data-msg="Endocrinology referral">Endocrinology</div>-->
+<!--                                <div class="quick-reply" data-msg="Orthopedics referral">Orthopedics</div>-->
+<!--                                <div class="quick-reply" data-msg="Neurology referral">Neurology</div>-->
+<!--                            `;-->
+<!--                        } else {-->
+<!--                            quickReplies.innerHTML = `-->
+<!--                                <div class="quick-reply" data-msg="Treatment guidelines">Treatment Guidelines</div>-->
+<!--                                <div class="quick-reply" data-msg="My schedule">My Schedule</div>-->
+<!--                                <div class="quick-reply" data-msg="Drug interactions">Drug Interactions</div>-->
+<!--                                <div class="quick-reply" data-msg="Specialist referral">Specialist Referral</div>-->
+<!--                            `;-->
+<!--                        }-->
+
+<!--                        messagesContainer.appendChild(quickReplies);-->
+<!--                        messagesContainer.scrollTop = messagesContainer.scrollHeight;-->
+
+<!--                        // Add event listeners to quick replies-->
+<!--                        document.querySelectorAll('.quick-reply').forEach(reply => {-->
+<!--                            reply.addEventListener('click', function() {-->
+<!--                                input.value = this.getAttribute('data-msg');-->
+<!--                                sendButton.click();-->
+<!--                            });-->
+<!--                        });-->
+<!--                    }-->
+<!--                }, 1000);-->
+<!--            }-->
+
+<!--            sendButton.addEventListener('click', function() {-->
+<!--                const message = input.value.trim();-->
+<!--                if (message) {-->
+<!--                    addMessage(message, true);-->
+<!--                    input.value = '';-->
+<!--                    processMessage(message);-->
+<!--                }-->
+<!--            });-->
+
+<!--            input.addEventListener('keypress', function(e) {-->
+<!--                if (e.key === 'Enter') {-->
+<!--                    sendButton.click();-->
+<!--                }-->
+<!--            });-->
+
+<!--            // Add event listeners to initial quick replies-->
+<!--            document.querySelectorAll('.quick-reply').forEach(reply => {-->
+<!--                reply.addEventListener('click', function() {-->
+<!--                    input.value = this.getAttribute('data-msg');-->
+<!--                    sendButton.click();-->
+<!--                });-->
+<!--            });-->
+<!--        }-->
+
+<!--        // Alert functionality-->
+<!--        function showAlert(message, type = 'info') {-->
+<!--            const alertContainer = document.getElementById('alertContainer');-->
+<!--            const alert = document.createElement('div');-->
+<!--            alert.classList.add('alert', type);-->
+
+<!--            let icon = 'info-circle';-->
+<!--            if (type === 'success') icon = 'check-circle';-->
+<!--            if (type === 'warning') icon = 'exclamation-triangle';-->
+<!--            if (type === 'error') icon = 'exclamation-circle';-->
+
+<!--            alert.innerHTML = `-->
+<!--                <i class="fas fa-${icon}"></i>-->
+<!--                <div>${message}</div>-->
+<!--                <button class="close-btn" style="margin-left: auto; background: none; border: none; cursor: pointer;">-->
+<!--                    <i class="fas fa-times"></i>-->
+<!--                </button>-->
+<!--            `;-->
+
+<!--            alertContainer.appendChild(alert);-->
+
+<!--            // Add close functionality-->
+<!--            const closeBtn = alert.querySelector('.close-btn');-->
+<!--            closeBtn.addEventListener('click', () => {-->
+<!--                alert.style.animation = 'slideOut 0.3s ease';-->
+<!--                setTimeout(() => {-->
+<!--                    alert.remove();-->
+<!--                }, 300);-->
+<!--            });-->
+
+<!--            // Auto remove after 5 seconds-->
+<!--            setTimeout(() => {-->
+<!--                if (alert.parentNode) {-->
+<!--                    alert.style.animation = 'slideOut 0.3s ease';-->
+<!--                    setTimeout(() => {-->
+<!--                        if (alert.parentNode) {-->
+<!--                            alert.remove();-->
+<!--                        }-->
+<!--                    }, 300);-->
+<!--                }-->
+<!--            }, 5000);-->
+<!--        }-->
+
+<!--        // Setup button functionality-->
+<!--        function setupButtonFunctionality() {-->
+<!--            // Logout button-->
+<!--            document.getElementById('logoutBtn').addEventListener('click', function() {-->
+<!--                if(confirm('Are you sure you want to logout?')) {-->
+<!--                    showAlert('Logging out...', 'info');-->
+<!--                    setTimeout(() => {-->
+<!--                        alert('You have been logged out.');-->
+<!--                    }, 1000);-->
+<!--                }-->
+<!--            });-->
+
+<!--            // Quick action buttons-->
+<!--            document.getElementById('newPatientBtn').addEventListener('click', function() {-->
+<!--                showAlert('Opening new patient form...', 'info');-->
+<!--            });-->
+
+<!--            document.getElementById('writePrescriptionBtn').addEventListener('click', function() {-->
+<!--                showAlert('Opening prescription writer...', 'info');-->
+<!--            });-->
+
+<!--            document.getElementById('startConsultationBtn').addEventListener('click', function() {-->
+<!--                showAlert('Starting telehealth consultation...', 'info');-->
+<!--            });-->
+<!--        }-->
+
+<!--        // Simulate real-time updates-->
+<!--        function setupRealTimeUpdates() {-->
+<!--            // Show welcome alert-->
+<!--            setTimeout(() => {-->
+<!--                showAlert('Welcome back, Dr. Chen! You have 3 new notifications.', 'info');-->
+<!--            }, 1000);-->
+
+<!--            // Simulate new lab result notification-->
+<!--            setTimeout(() => {-->
+<!--                showAlert('New lab results available for Lisa Anderson', 'success');-->
+
+<!--                // Also add to chatbot-->
+<!--                const messagesContainer = document.getElementById('chatbotMessages');-->
+<!--                const notification = document.createElement('div');-->
+<!--                notification.classList.add('message', 'bot-message');-->
+<!--                notification.textContent = 'New lab results available for Lisa Anderson';-->
+<!--                messagesContainer.appendChild(notification);-->
+<!--                messagesContainer.scrollTop = messagesContainer.scrollHeight;-->
+<!--            }, 5000);-->
+<!--        }-->
+
+<!--        // Initialize dashboard-->
+<!--        document.addEventListener('DOMContentLoaded', function() {-->
+<!--            setupTabs();-->
+<!--            setupConditionSelection();-->
+<!--            setupChatbot();-->
+<!--            setupButtonFunctionality();-->
+<!--            setupRealTimeUpdates();-->
+<!--        });-->
+<!--    </script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - MedConnect Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --primary-light: #34495e;
+            --primary-dark: #1a252f;
+            --secondary: #3498db;
+            --secondary-dark: #2980b9;
+            --accent: #e74c3c;
+            --accent-light: #ec7063;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #7f8c8d;
+            --light-gray: #bdc3c7;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr 350px;
+            gap: 20px;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            grid-column: 1 / -1;
+        }
+
+        .welcome-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+        }
+
+        .notification-area {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .notification-badge {
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            padding: 3px 8px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--dark);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-dark);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background: var(--accent-light);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Appointment List Styles */
+        .appointment-list {
+            margin-top: 15px;
+        }
+
+        .appointment-item {
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--light);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .appointment-details {
+            flex: 1;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-upcoming {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-completed {
+            background-color: #f1f8e9;
+            color: #689f38;
+        }
+
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        /* Patient List Styles */
+        .patient-list {
+            margin-top: 15px;
+        }
+
+        .patient-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--light);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .patient-item:hover {
+            background: #dfe6e9;
+        }
+
+        .patient-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Metrics Styles */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: var(--light);
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 5px 0;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+
+        .chatbot-header {
+            padding: 15px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+
+        .bot-message {
+            background: var(--light);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .user-message {
+            background: var(--primary-light);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chatbot-input button {
+            margin-left: 10px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+        }
+
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-reply {
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quick-reply:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
+            padding: 20px;
+        }
+
+        .login-form {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo i {
+            font-size: 48px;
+            color: var(--primary);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .notification-area {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page (Initially shown) -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-form">
+            <div class="login-logo">
+                <i class="fas fa-stethoscope"></i>
+            </div>
+            <h2>MedConnect Pro</h2>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button class="login-btn" id="loginBtn">Login</button>
+        </div>
+    </div>
+
+    <!-- Dashboard (Initially hidden) -->
+    <div class="container" id="dashboardContainer" style="display: none;">
+        <header>
+            <div class="welcome-section">
+                <img src="https://xsgames.co/randomusers/avatar.php?g=male&id=doc1" alt="Profile" class="profile-img">
+                <div>
+                    <h1>Doctor Dashboard</h1>
+                    <p id="usernameDisplay">Welcome, Dr. Michael Chen!</p>
+                </div>
+            </div>
+            <div class="notification-area">
+                <button class="btn-primary"><i class="fas fa-calendar-plus"></i> New Appointment</button>
+                <button class="btn-secondary"><i class="fas fa-bell"></i> Alerts <span class="notification-badge">3</span></button>
+                <button id="logoutBtn" class="btn-accent"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </header>
+
+        <aside class="sidebar">
+            <h3>Navigation</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="#"><i class="fas fa-user-injured"></i> Patients</a></li>
+                <li><a href="#"><i class="fas fa-prescription"></i> Prescriptions</a></li>
+                <li><a href="#"><i class="fas fa-stethoscope"></i> Telehealth</a></li>
+                <li><a href="#"><i class="fas fa-file-medical"></i> Medical Records</a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+
+            <div style="margin-top: 20px;">
+                <h3>Quick Actions</h3>
+                <button class="btn-success" style="width: 100%; margin-top: 10px;"><i class="fas fa-plus"></i> New Patient</button>
+                <button class="btn-primary" style="width: 100%; margin-top: 10px;"><i class="fas fa-file-prescription"></i> Write Rx</button>
+                <button class="btn-secondary" style="width: 100%; margin-top: 10px;"><i class="fas fa-video"></i> Start Consultation</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-calendar-check"></i> Today's Appointments</h2>
+                        <span id="appointmentCount" class="notification-badge">5</span>
+                    </div>
+                    <div class="appointment-list">
+                        <div class="appointment-item">
+                            <div class="appointment-details">
+                                <h4>Sarah Johnson</h4>
+                                <p>2:30 PM - Follow-up</p>
+                            </div>
+                            <div class="appointment-actions">
+                                <span class="status-badge status-upcoming">Upcoming</span>
+                                <button class="btn-primary"><i class="fas fa-video"></i></button>
+                            </div>
+                        </div>
+                        <div class="appointment-item">
+                            <div class="appointment-details">
+                                <h4>Robert Williams</h4>
+                                <p>3:45 PM - Consultation</p>
+                            </div>
+                            <div class="appointment-actions">
+                                <span class="status-badge status-upcoming">Upcoming</span>
+                                <button class="btn-primary"><i class="fas fa-video"></i></button>
+                            </div>
+                        </div>
+                        <div class="appointment-item">
+                            <div class="appointment-details">
+                                <h4>Emily Davis</h4>
+                                <p>10:15 AM - Completed</p>
+                            </div>
+                            <div class="appointment-actions">
+                                <span class="status-badge status-completed">Completed</span>
+                                <button class="btn-secondary"><i class="fas fa-file-medical"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" style="width: 100%; margin-top: 15px;">
+                        <i class="fas fa-list"></i> View All Appointments
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-user-injured"></i> Recent Patients</h2>
+                    </div>
+                    <div class="patient-list">
+                        <div class="patient-item">
+                            <img src="https://xsgames.co/randomusers/avatar.php?g=female&id=pat1" class="patient-img">
+                            <div>
+                                <h4>Maria Garcia</h4>
+                                <p>Last visit: Today</p>
+                            </div>
+                        </div>
+                        <div class="patient-item">
+                            <img src="https://xsgames.co/randomusers/avatar.php?g=male&id=pat2" class="patient-img">
+                            <div>
+                                <h4>James Wilson</h4>
+                                <p>Last visit: Yesterday</p>
+                            </div>
+                        </div>
+                        <div class="patient-item">
+                            <img src="https://xsgames.co/randomusers/avatar.php?g=female&id=pat3" class="patient-img">
+                            <div>
+                                <h4>Lisa Anderson</h4>
+                                <p>Last visit: 2 days ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" style="width: 100%; margin-top: 15px;">
+                        <i class="fas fa-search"></i> Search Patients
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chart-line"></i> Practice Metrics</h2>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">18</div>
+                            <div class="metric-label">Patients Today</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">92%</div>
+                            <div class="metric-label">Attendance Rate</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">34</div>
+                            <div class="metric-label">Weekly Appointments</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">15m</div>
+                            <div class="metric-label">Avg. Wait Time</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-prescription"></i> Recent Prescriptions</h2>
+                    </div>
+                    <div class="appointment-list">
+                        <div class="appointment-item">
+                            <div class="appointment-details">
+                                <h4>Lisinopril 10mg</h4>
+                                <p>For: Robert Williams</p>
+                            </div>
+                            <div class="appointment-actions">
+                                <span class="status-badge status-upcoming">Active</span>
+                            </div>
+                        </div>
+                        <div class="appointment-item">
+                            <div class="appointment-details">
+                                <h4>Metformin 500mg</h4>
+                                <p>For: Emily Davis</p>
+                            </div>
+                            <div class="appointment-actions">
+                                <span class="status-badge status-upcoming">Active</span>
+                            </div>
+                        </div>
+                        <div class="appointment-item">
+                            <div class="appointment-details">
+                                <h4>Amoxicillin 250mg</h4>
+                                <p>For: Sarah Johnson</p>
+                            </div>
+                            <div class="appointment-actions">
+                                <span class="status-badge status-completed">Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" style="width: 100%; margin-top: 15px;">
+                        <i class="fas fa-file-prescription"></i> Write New Prescription
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-stethoscope"></i> Telehealth Sessions</h2>
+                </div>
+                <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                    <div class="metric-card">
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">Sessions Today</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">87%</div>
+                        <div class="metric-label">Patient Satisfaction</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">4.8/5</div>
+                        <div class="metric-label">Average Rating</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">2</div>
+                        <div class="metric-label">Waiting Now</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn-primary"><i class="fas fa-video"></i> Start Session</button>
+                    <button class="btn-secondary"><i class="fas fa-list"></i> View Queue</button>
+                </div>
+            </div>
+        </main>
+
+        <aside>
+            <div class="chatbot-container">
+                <div class="chatbot-header">
+                    <i class="fas fa-robot"></i>
+                    <h3>Medical Assistant AI</h3>
+                </div>
+                <div class="chatbot-messages" id="chatbotMessages">
+                    <div class="message bot-message">
+                        Hello Dr. Chen! I'm your Medical Assistant. How can I help you today?
+                    </div>
+                    <div class="message bot-message">
+                        You can ask me about:
+                        <div class="quick-replies">
+                            <div class="quick-reply" data-msg="Patient records">Patient Records</div>
+                            <div class="quick-reply" data-msg="Drug interactions">Drug Interactions</div>
+                            <div class="quick-reply" data-msg="Treatment guidelines">Treatment Guidelines</div>
+                            <div class="quick-reply" data-msg="Schedule">My Schedule</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chatbot-input">
+                    <input type="text" id="chatbotInput" placeholder="Ask a medical question...">
+                    <button class="btn-primary" id="sendMessageBtn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <h2><i class="fas fa-bell"></i> Notifications</h2>
+                </div>
+                <div class="appointment-list">
+                    <div class="appointment-item">
+                        <div class="appointment-details">
+                            <h4>Lab Results Ready</h4>
+                            <p>Sarah Johnson - CBC Panel</p>
+                        </div>
+                        <span class="status-badge status-upcoming">New</span>
+                    </div>
+                    <div class="appointment-item">
+                        <div class="appointment-details">
+                            <h4>Appointment Change</h4>
+                            <p>Robert Williams rescheduled</p>
+                        </div>
+                        <span class="status-badge status-upcoming">Alert</span>
+                    </div>
+                    <div class="appointment-item">
+                        <div class="appointment-details">
+                            <h4>Pharmacy Request</h4>
+                            <p>Refill authorization needed</p>
+                        </div>
+                        <span class="status-badge status-upcoming">Pending</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginContainer = document.getElementById('loginContainer');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+
+        // Login functionality
+        loginBtn.addEventListener('click', function() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (username && password) {
+                // In a real app, you would verify credentials with a server
+                // For demo purposes, we'll just check if fields are not empty
+                loginContainer.style.display = 'none';
+                dashboardContainer.style.display = 'grid';
+            } else {
+                alert('Please enter both username and password');
+            }
+        });
+
+        // Allow login on Enter key press
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loginBtn.click();
+            }
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Hide dashboard and show login page
+                dashboardContainer.style.display = 'none';
+                loginContainer.style.display = 'flex';
+
+                // Clear the input fields
+                usernameInput.value = '';
+                passwordInput.value = '';
+            }
+        });
+
+        // Simple chatbot functionality for demo
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+
+        sendMessageBtn.addEventListener('click', function() {
+            const message = chatbotInput.value.trim();
+            if (message) {
+                // Add user message
+                addMessage(message, true);
+                chatbotInput.value = '';
+
+                // Simulate bot response after a short delay
+                setTimeout(() => {
+                    let response = "I'm a demo assistant. In a real application, I would help with medical queries.";
+
+                    if (message.toLowerCase().includes('patient')) {
+                        response = "I can help you access patient records. Which patient are you looking for?";
+                    } else if (message.toLowerCase().includes('drug')) {
+                        response = "I can check drug interactions. Please specify the medications.";
+                    } else if (message.toLowerCase().includes('appointment')) {
+                        response = "You have 5 appointments today. Your next appointment is with Sarah Johnson at 2:30 PM.";
+                    }
+
+                    addMessage(response, false);
+                }, 1000);
+            }
+        });
+
+        function addMessage(message, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.textContent = message;
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        // Allow sending messages with Enter key
+        chatbotInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessageBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

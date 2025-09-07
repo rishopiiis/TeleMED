@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Chatbot Integration</title>
+    <!-- PyScript CSS -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4cb5f5;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #e9ecef;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background-color: var(--accent);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background-color: #e9e9e9;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        .input-group {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--secondary);
+        }
+
+        .severity-indicator {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .emergency {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .urgent {
+            background-color: var(--warning);
+            color: black;
+        }
+
+        .moderate {
+            background-color: var(--info);
+            color: white;
+        }
+
+        .mild {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .contact-info {
+            background-color: #e8f4fc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .file-upload {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+        }
+
+        .status-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                margin-bottom: 5px;
+                border-radius: 5px;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Medical Chatbot Integration</h1>
+            <p class="subtitle">Combining chatbot, triage, and PDF processing capabilities</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="chat">Medical Chat</div>
+            <div class="tab" data-tab="triage">Triage System</div>
+            <div class="tab" data-tab="pdf">PDF Processing</div>
+        </div>
+
+        <!-- Chat Tab -->
+        <div class="tab-content active" id="chat-tab">
+            <div class="card">
+                <div class="card-header">
+                    Medical Information Assistant
+                </div>
+                <div class="card-body">
+                    <div class="chat-container" id="chat-output">
+                        <div class="message bot-message">
+                            Hello! I'm a medical information assistant. I can help with general health information, symptom explanations, and medication overviews. Please remember that I'm not a substitute for professional medical advice. How can I help you today?
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="user-input" placeholder="Type your health question here...">
+                        <button id="send-btn">Send</button>
+                    </div>
+                    <div class="status-message" id="chat-status"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Triage Tab -->
+        <div class="tab-content" id="triage-tab">
+            <div class="card">
+                <div class="card-header">
+                    Medical Triage System
+                </div>
+                <div class="card-body">
+                    <div class="chat-container" id="triage-output">
+                        <div class="message bot-message">
+                            Welcome to the medical triage system. Describe your symptoms or medical concern, and I'll assess the severity and direct you to appropriate care.
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="triage-input" placeholder="Describe your symptoms...">
+                        <button id="triage-btn">Assess</button>
+                    </div>
+                    <div class="status-message" id="triage-status"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PDF Tab -->
+        <div class="tab-content" id="pdf-tab">
+            <div class="card">
+                <div class="card-header">
+                    PDF Text Extraction
+                </div>
+                <div class="card-body">
+                    <div class="file-upload" id="drop-zone">
+                        <p>Drag & drop a PDF file here or click to browse</p>
+                        <input type="file" id="file-input" accept=".pdf" style="display: none;">
+                    </div>
+                    <div id="pdf-output"></div>
+                    <div class="status-message" id="pdf-status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <py-config>
+        packages = ["sqlite3"]
+        [[fetch]]
+        files = [".env"]
+    </py-config>
+
+    <py-script>
+        import js
+        from pyodide.ffi import create_proxy
+        import sqlite3
+        import os
+        import time
+
+        # Output elements
+        chat_output = js.document.getElementById("chat-output")
+        triage_output = js.document.getElementById("triage-output")
+        pdf_output = js.document.getElementById("pdf-output")
+
+        # Status elements
+        chat_status = js.document.getElementById("chat-status")
+        triage_status = js.document.getElementById("triage-status")
+        pdf_status = js.document.getElementById("pdf-status")
+
+        # Function to add messages to output
+        def add_message(container, message, is_user=False):
+            message_div = js.document.createElement("div")
+            message_div.className = "message " + ("user-message" if is_user else "bot-message")
+            message_div.textContent = message
+            container.appendChild(message_div)
+            container.scrollTop = container.scrollHeight
+
+        # Function to set status message
+        def set_status(element, message, type="info"):
+            element.textContent = message
+            element.style.backgroundColor = {
+                "info": "#d1ecf1",
+                "success": "#d4edda",
+                "warning": "#fff3cd",
+                "error": "#f8d7da"
+            }.get(type, "#d1ecf1")
+            element.style.color = {
+                "info": "#0c5460",
+                "success": "#155724",
+                "warning": "#856404",
+                "error": "#721c24"
+            }.get(type, "#0c5460")
+
+        # Initialize components
+        set_status(chat_status, "Initializing medical chatbot...", "info")
+        set_status(triage_status, "Initializing triage system...", "info")
+        set_status(pdf_status, "PDF processor ready. Upload a file to begin.", "info")
+
+        # ===== SIMULATED CHATBOT =====
+        class MedicalChatbot:
+            def __init__(self):
+                self.responses = {
+                    "headache": "Headaches can have many causes including tension, dehydration, or eye strain. Make sure to stay hydrated and rest. If headaches persist or are severe, consult a doctor.",
+                    "fever": "Fever is often a sign of infection. Rest and fluids are important. If fever is high (over 103°F) or persists for more than 3 days, seek medical attention.",
+                    "cough": "Coughs can be due to colds, allergies, or irritants. Honey and warm fluids may help. See a doctor if cough persists for more than 2 weeks or is accompanied by difficulty breathing.",
+                    "chest pain": "Chest pain should always be taken seriously. If you're experiencing severe chest pain, especially with shortness of breath, seek emergency care immediately.",
+                    "stomach pain": "Stomach pain can result from indigestion, gas, or viral infections. Try bland foods and stay hydrated. See a doctor if pain is severe or persists.",
+                    "back pain": "Back pain is often due to muscle strain. Rest, gentle stretching, and over-the-counter pain relievers may help. Consult a doctor if pain is severe or radiates down your leg.",
+                }
+
+                self.default_response = "I understand you're concerned about your health. For accurate medical advice, it's important to consult with a healthcare professional who can evaluate your specific situation."
+
+            def get_response(self, user_input):
+                user_input = user_input.lower()
+                for keyword, response in self.responses.items():
+                    if keyword in user_input:
+                        return response
+                return self.default_response
+
+        # ===== SIMULATED TRIAGE SYSTEM =====
+        class MedicalTriage:
+            def __init__(self):
+                self.emergency_keywords = [
+                    'chest pain', 'heart attack', 'stroke', 'difficulty breathing',
+                    'severe bleeding', 'choking', 'unconscious', 'severe pain'
+                ]
+
+                self.urgent_keywords = [
+                    'high fever', 'fever over 103', 'deep cut', 'broken bone',
+                    'vomiting blood', 'severe burn', 'head injury'
+                ]
+
+                self.moderate_keywords = [
+                    'earache', 'sore throat', 'rash', 'abdominal pain',
+                    'headache', 'back pain', 'cough'
+                ]
+
+            def assess_severity(self, user_input):
+                user_input = user_input.lower()
+
+                for keyword in self.emergency_keywords:
+                    if keyword in user_input:
+                        return "emergency", "This appears to be an emergency. Please seek immediate medical attention or call emergency services."
+
+                for keyword in self.urgent_keywords:
+                    if keyword in user_input:
+                        return "urgent", "This seems urgent. Please contact a healthcare provider today or visit an urgent care facility."
+
+                for keyword in self.moderate_keywords:
+                    if keyword in user_input:
+                        return "moderate", "This condition appears moderate. Schedule an appointment with your healthcare provider in the next few days."
+
+                return "mild", "This seems like a mild issue. Self-care measures may be appropriate, but contact a doctor if symptoms persist or worsen."
+
+            def get_specialist(self, user_input):
+                user_input = user_input.lower()
+
+                if any(word in user_input for word in ['heart', 'chest', 'blood pressure']):
+                    return "Cardiologist"
+                elif any(word in user_input for word in ['headache', 'dizzy', 'numbness', 'vision']):
+                    return "Neurologist"
+                elif any(word in user_input for word in ['stomach', 'abdominal', 'nausea', 'vomit']):
+                    return "Gastroenterologist"
+                elif any(word in user_input for word in ['rash', 'skin', 'acne', 'eczema']):
+                    return "Dermatologist"
+                elif any(word in user_input for word in ['bone', 'joint', 'fracture', 'sprain']):
+                    return "Orthopedist"
+                else:
+                    return "General Practitioner"
+
+        # ===== SIMULATED PDF PROCESSOR =====
+        class PDFProcessor:
+            def __init__(self):
+                self.sample_data = {
+                    "medical_report.pdf": {
+                        "patient": "John Smith",
+                        "age": "45",
+                        "diagnosis": "Hypertension",
+                        "summary": "Patient presents with elevated blood pressure readings over the past three visits. Recommended lifestyle modifications and follow-up in 4 weeks."
+                    },
+                    "lab_results.pdf": {
+                        "patient": "Sarah Johnson",
+                        "age": "32",
+                        "diagnosis": "Vitamin D deficiency",
+                        "summary": "Blood test reveals low vitamin D levels. Recommended supplementation and retest in 3 months."
+                    }
+                }
+
+            def process_pdf(self, filename):
+                time.sleep(2)  # Simulate processing time
+
+                if filename in self.sample_data:
+                    return self.sample_data[filename]
+                else:
+                    return {
+                        "patient": "Unknown",
+                        "age": "N/A",
+                        "diagnosis": "No diagnosis data found",
+                        "summary": "This appears to be a general document without specific medical data."
+                    }
+
+        # Initialize the components
+        chatbot = MedicalChatbot()
+        triage_system = MedicalTriage()
+        pdf_processor = PDFProcessor()
+
+        set_status(chat_status, "Medical chatbot ready. Ask a health question.", "success")
+        set_status(triage_status, "Triage system ready. Describe your symptoms.", "success")
+
+        # ===== EVENT HANDLERS =====
+        def handle_chat_input(e):
+            user_input = js.document.getElementById("user-input").value
+            if not user_input.strip():
+                return
+
+            # Add user message to chat
+            add_message(chat_output, user_input, True)
+            js.document.getElementById("user-input").value = ""
+
+            # Show typing indicator
+            set_status(chat_status, "Thinking...", "info")
+
+            # Get and display response after a short delay
+            def get_response():
+                response = chatbot.get_response(user_input)
+                add_message(chat_output, response)
+                set_status(chat_status, "Ready", "success")
+
+            setTimeout(create_proxy(get_response), 1000)
+
+        def handle_triage_input(e):
+            user_input = js.document.getElementById("triage-input").value
+            if not user_input.strip():
+                return
+
+            # Add user message to triage
+            add_message(triage_output, user_input, True)
+            js.document.getElementById("triage-input").value = ""
+
+            # Show assessing indicator
+            set_status(triage_status, "Assessing severity...", "info")
+
+            # Get and display response after a short delay
+            def assess_symptoms():
+                severity, advice = triage_system.assess_severity(user_input)
+                specialist = triage_system.get_specialist(user_input)
+
+                # Create response with severity indicator
+                severity_class = {
+                    "emergency": "emergency",
+                    "urgent": "urgent",
+                    "moderate": "moderate",
+                    "mild": "mild"
+                }.get(severity, "mild")
+
+                severity_text = severity.capitalize()
+
+                response = f"{advice}\n\nRecommended specialist: {specialist}"
+
+                # Create message with severity indicator
+                message_div = js.document.createElement("div")
+                message_div.className = "message bot-message"
+
+                severity_span = js.document.createElement("span")
+                severity_span.className = f"severity-indicator {severity_class}"
+                severity_span.textContent = severity_text
+
+                message_div.appendChild(js.document.createTextNode(response))
+                message_div.appendChild(severity_span)
+
+                triage_output.appendChild(message_div)
+                triage_output.scrollTop = triage_output.scrollHeight
+
+                # Add contact information
+                contact_div = js.document.createElement("div")
+                contact_div.className = "contact-info"
+                contact_div.textContent = f"Contact: {specialist} Department - Phone: 555-{hash(specialist) % 1000:03d}"
+                triage_output.appendChild(contact_div)
+
+                set_status(triage_status, "Assessment complete", "success")
+
+            setTimeout(create_proxy(assess_symptoms), 1500)
+
+        def handle_file_select(e):
+            files = e.target.files
+            if files.length == 0:
+                return
+
+            file = files[0]
+            filename = file.name
+
+            set_status(pdf_status, f"Processing {filename}...", "info")
+
+            # Process the PDF after a short delay
+            def process_file():
+                result = pdf_processor.process_pdf(filename)
+
+                # Display results
+                result_html = f"""
+                <div class="card">
+                    <div class="card-header">Extracted Information</div>
+                    <div class="card-body">
+                        <p><strong>Patient:</strong> {result['patient']}</p>
+                        <p><strong>Age:</strong> {result['age']}</p>
+                        <p><strong>Diagnosis:</strong> {result['diagnosis']}</p>
+                        <p><strong>Summary:</strong> {result['summary']}</p>
+                    </div>
+                </div>
+                """
+
+                pdf_output.innerHTML = result_html
+                set_status(pdf_status, "PDF processing complete", "success")
+
+            setTimeout(create_proxy(process_file), 2000)
+
+        # ===== TAB HANDLING =====
+        def switch_tab(e):
+            # Remove active class from all tabs
+            tabs = js.document.getElementsByClassName("tab")
+            for tab in tabs:
+                tab.classList.remove("active")
+
+            # Add active class to clicked tab
+            e.target.classList.add("active")
+
+            # Hide all tab content
+            tab_contents = js.document.getElementsByClassName("tab-content")
+            for content in tab_contents:
+                content.classList.remove("active")
+
+            # Show selected tab content
+            tab_id = e.target.getAttribute("data-tab")
+            js.document.getElementById(f"{tab_id}-tab").classList.add("active")
+
+        # ===== SETUP EVENT LISTENERS =====
+        def setup_event_listeners():
+            # Chat tab
+            js.document.getElementById("send-btn").addEventListener("click", create_proxy(handle_chat_input))
+            js.document.getElementById("user-input").addEventListener("keypress", create_proxy(lambda e: e.key == "Enter" and handle_chat_input(e)))
+
+            # Triage tab
+            js.document.getElementById("triage-btn").addEventListener("click", create_proxy(handle_triage_input))
+            js.document.getElementById("triage-input").addEventListener("keypress", create_proxy(lambda e: e.key == "Enter" and handle_triage_input(e)))
+
+            # PDF tab
+            js.document.getElementById("file-input").addEventListener("change", create_proxy(handle_file_select))
+            js.document.getElementById("drop-zone").addEventListener("click", create_proxy(lambda: js.document.getElementById("file-input").click()))
+
+            # Tab switching
+            tabs = js.document.getElementsByClassName("tab")
+            for tab in tabs:
+                tab.addEventListener("click", create_proxy(switch_tab))
+
+        # Initialize the application
+        setup_event_listeners()
+        set_status(chat_status, "System ready. Ask a health question.", "success")
+        set_status(triage_status, "System ready. Describe your symptoms.", "success")
+        set_status(pdf_status, "PDF processor ready. Upload a file to begin.", "success")
+    </py-script>
+</body>
+</html>
